@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-zt55cz2sc^ywzysq0e2my)ch$tey1+*m5v08g42(@7^&w75qm!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 load_dotenv(BASE_DIR / '.env')
 
@@ -116,10 +116,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-#static storage
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -143,3 +145,4 @@ ADMINS = [('Admin', EMAIL_HOST_USER)] if EMAIL_HOST_USER else []
 
 LOGIN_REDIRECT_URL = 'reviews:book-list'
 LOGOUT_REDIRECT_URL = 'reviews:book-list'
+
