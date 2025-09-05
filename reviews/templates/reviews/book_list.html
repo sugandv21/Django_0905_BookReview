@@ -1,0 +1,65 @@
+{% extends 'reviews/base.html' %}
+{% block content %}
+<h1>Books</h1>
+<form method="get" class="mb-3 row g-2">
+  <div class="col-auto">
+    {{ search_form.q }}
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary">Search</button>
+  </div>
+</form>
+<div class="row">
+  {% for book in books %}
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        {% if book.cover_image %}
+          <img src="{{ book.cover_image.url }}" 
+     class="card-img-top" 
+     alt="cover"
+     style="height:650px; object-fit:cover; width:100%;">
+
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ book.title }}</h5>
+          <p class="card-text">By {{ book.author }}</p>
+          <a href="{% url 'reviews:book-detail' book.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No books found.</p>
+  {% endfor %}
+<nav aria-label="Book list pagination">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+          Previous
+        </a>
+      </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">{{ num }}</span>
+        </li>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+          Next
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'reviews/base.html' %}
+{% block content %}
+<div class="p-5 mb-4 bg-primary text-white rounded">
+  <div class="container">
+    <h1 class="display-5">Welcome to BookReview</h1>
+    <p class="lead">Browse books, read reviews, and share your thoughts with the community.</p>
+    <a href="{% url 'reviews:book-list' %}" class="btn btn-light">Explore Books</a>
+  </div>
+</div>
+
+<h2 class="mt-4">Featured Books</h2>
+<div class="row">
+  {% for book in featured_books %}
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        {% if book.cover_image %}
+          <img src="{{ book.cover_image.url }}" class="card-img-top" alt="cover">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ book.title }}</h5>
+          <p class="card-text">By {{ book.author }}</p>
+          <a href="{% url 'reviews:book-detail' book.pk %}" class="btn btn-sm btn-outline-light">Read More</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No featured books yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
